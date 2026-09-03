@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest an idea.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is the problem?
+      description: Is this feature motivated by a problem?
+      placeholder: |
+        I am always frustrated when I lose my session after restarting the server.
+  - type: textarea
+    id: solution
+    attributes:
+      label: What is the proposed solution?
+      description: What do you want to happen?
+      placeholder: |
+        Persist sessions to a small SQLite file so they survive restarts.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches have you considered?
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context

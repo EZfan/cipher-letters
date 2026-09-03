@@ -1,0 +1,49 @@
+{
+  "name": "cipher-letters",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An offline-first AI literary mystery game. Read generated literature, interrogate the ghost who wrote it, and uncover the truth hidden between the lines.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Cipher Letters Contributors",
+  "keywords": [
+    "ai",
+    "llm",
+    "literary-game",
+    "mystery",
+    "interactive-fiction",
+    "local-first",
+    "open-source"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r run build",
+    "start": "pnpm --filter @cipher/server start",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "prepare": "husky || true",
+    "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "packageManager": "pnpm@10.17.1"
+}

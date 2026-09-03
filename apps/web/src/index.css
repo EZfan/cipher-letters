@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at top, rgba(196, 151, 85, 0.05), transparent 60%),
+      radial-gradient(ellipse at bottom, rgba(124, 31, 31, 0.04), transparent 50%),
+      #0d0a08;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Subtle paper noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.78 0 0 0 0 0.59 0 0 0 0 0.33 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    z-index: 0;
+  }
+}
+
+@layer components {
+  .paper {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 238, 216, 0.97),
+      rgba(236, 217, 168, 0.94)
+    );
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(247, 238, 216, 0.97),
+        rgba(236, 217, 168, 0.94)
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+    color: #1c1814;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.08),
+      0 20px 60px -20px rgba(0, 0, 0, 0.6),
+      inset 0 0 80px rgba(124, 31, 31, 0.04);
+  }
+
+  .ink-link {
+    position: relative;
+    color: #7c1f1f;
+    border-bottom: 1px dashed rgba(124, 31, 31, 0.4);
+    transition: color 0.2s;
+  }
+  .ink-link:hover {
+    color: #4a0e0e;
+    border-bottom-color: #4a0e0e;
+  }
+
+  .seal {
+    color: #7c1f1f;
+    border: 1px solid currentColor;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+  }
+
+  .ornament::before,
+  .ornament::after {
+    content: '❦';
+    color: #c69755;
+    margin: 0 0.75rem;
+    opacity: 0.6;
+  }
+
+  .text-shadow-soft {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .letter-body p {
+    margin-bottom: 1.1em;
+    text-indent: 1.5em;
+    line-height: 1.85;
+  }
+
+  .letter-body p:first-child {
+    text-indent: 0;
+  }
+
+  .letter-body p:first-child::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 3.5em;
+    float: left;
+    line-height: 0.85;
+    padding: 0.1em 0.1em 0 0;
+    color: #7c1f1f;
+    font-style: italic;
+  }
+}
+
+@layer utilities {
+  .scroll-fade-mask {
+    mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+  }
+}

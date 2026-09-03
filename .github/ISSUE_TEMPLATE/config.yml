@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/cipher-letters/cipher-letters/tree/main/docs
+    about: Read the architecture, prompt-design, and authoring-a-case docs first.
+  - name: Security disclosure
+    url: https://github.com/cipher-letters/cipher-letters/blob/main/SECURITY.md
+    about: Report security vulnerabilities privately via email, not as an issue.

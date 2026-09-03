@@ -1,0 +1,42 @@
+name: Bug report
+description: Something is broken.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: |
+        When I open a session and ask the ghost "Where is Erich?", I get a 502.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: How can we reproduce this?
+      placeholder: |
+        1. `pnpm install && pnpm build`
+        2. `pnpm start`
+        3. Open http://127.0.0.1:4317/
+        4. Click "The Last Letter"
+        5. Send the message "Where is Erich?"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, LLM backend, model.
+      placeholder: |
+        - OS: Ubuntu 24.04
+        - Node: v22.10.0
+        - LLM: Ollama 0.5.0 with qwen2.5:7b
+    validations:
+      required: false
