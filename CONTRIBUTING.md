@@ -27,9 +27,10 @@ By participating, you agree to abide by our
 ## Development setup
 
 ```bash
-# 1. Fork and clone
+# 1. Fork, then clone your fork
 git clone https://github.com/<your-username>/cipher-letters.git
 cd cipher-letters
+git remote add upstream https://github.com/EZfan/cipher-letters.git
 
 # 2. Install (requires Node 20+ and pnpm 10+)
 pnpm install

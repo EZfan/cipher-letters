@@ -138,7 +138,7 @@ You will need [Node.js 20+](https://nodejs.org) and [pnpm](https://pnpm.io).
 
 ```bash
 # 1. Clone
-git clone https://github.com/cipher-letters/cipher-letters.git
+git clone https://github.com/EZfan/cipher-letters.git
 cd cipher-letters
 
 # 2. Install dependencies
