@@ -22,6 +22,7 @@ import {
   NEW_CASE_OUTLINE_PROMPT,
   fairPlayScore,
   disclosureThreshold,
+  extractCitedClues,
 } from '@cipher/shared';
 import { LLMClient, type LLMMessage } from './llm-client.js';
 
@@ -105,18 +106,18 @@ export class Orchestrator {
    * Judge the player's accusation. The judge sees the hidden truth and
    * the surface text; it does not reveal the hidden truth directly.
    */
-  async judgeAccusation(
-    caseData: Case,
-    accusation: string,
-  ): Promise<AccusationVerdict> {
-    const systemPrompt = ACCUSATION_JUDGE_PROMPT.replace('{{surfaceNarrative}}', caseData.surfaceNarrative)
+  async judgeAccusation(caseData: Case, accusation: string): Promise<AccusationVerdict> {
+    const systemPrompt = ACCUSATION_JUDGE_PROMPT.replace(
+      '{{surfaceNarrative}}',
+      caseData.surfaceNarrative,
+    )
       .replace('{{playerTruth}}', caseData.playerTruth)
       .replace('{{playerAccusation}}', accusation);
 
-    const result = await this.llm.complete(
-      [{ role: 'system', content: systemPrompt }],
-      { temperature: 0.3, maxTokens: 200 },
-    );
+    const result = await this.llm.complete([{ role: 'system', content: systemPrompt }], {
+      temperature: 0.3,
+      maxTokens: 200,
+    });
 
     const normalized = result.content.trim().toUpperCase();
     let verdict: AccusationVerdict['verdict'] = 'wrong';
@@ -133,21 +134,62 @@ export class Orchestrator {
   }
 
   /**
+   * Judge the player's accusation without any LLM — the offline fallback.
+   *
+   * Scores the accusation purely on cited evidence (the Fair Play
+   * validator): how many of the case's clues the player has surfaced in
+   * their own words. Thresholds are deliberately conservative so that a
+   * SOLVED verdict without the LLM means the player genuinely assembled
+   * the case from the text.
+   */
+  heuristicVerdict(caseData: Case, accusation: string): AccusationVerdict {
+    const score = fairPlayScore(accusation, caseData);
+    const uncited = caseData.clues.filter(
+      (c) => !extractCitedClues(accusation, caseData).some((x) => x.id === c.id),
+    );
+
+    if (score >= 0.5) {
+      return {
+        verdict: 'solved',
+        message:
+          'You have assembled it. The threads you pulled — the repetitions, the silences, the object that would not stay in the background — were the ones the writer hid the truth inside.',
+        fairPlayScore: score,
+      };
+    }
+
+    if (score >= 0.25) {
+      const next = uncited[0];
+      const nudge = next
+        ? ` You are circling it. Return to the text: ${next.appearsIn.toLowerCase()} holds something you have not yet turned over.`
+        : ' You are circling it. Return to the text and read the repetitions against each other.';
+      return {
+        verdict: 'partial',
+        message: `Part of what you say can be grounded in the text.${nudge}`,
+        fairPlayScore: score,
+      };
+    }
+
+    return {
+      verdict: 'wrong',
+      message:
+        'The text does not yet support this. Read it once more — slowly — and note what repeats without ever being explained.',
+      fairPlayScore: score,
+    };
+  }
+
+  /**
    * Generate the META reflection shown after a case is solved.
    */
   async generateMetaReflection(caseData: Case): Promise<string> {
-    const prompt = META_REFLECTION_PROMPT.replace(
-      '{{surfaceNarrative}}',
-      caseData.surfaceNarrative,
-    )
+    const prompt = META_REFLECTION_PROMPT.replace('{{surfaceNarrative}}', caseData.surfaceNarrative)
       .replace('{{playerTruth}}', caseData.playerTruth)
       .replace('{{metaReflection}}', caseData.metaReflection)
       .replace('{{metaTheme}}', caseData.tags.join(', '));
 
-    const result = await this.llm.complete(
-      [{ role: 'user', content: prompt }],
-      { temperature: 0.7, maxTokens: 400 },
-    );
+    const result = await this.llm.complete([{ role: 'user', content: prompt }], {
+      temperature: 0.7,
+      maxTokens: 400,
+    });
     return result.content.trim();
   }
 
@@ -156,10 +198,11 @@ export class Orchestrator {
    */
   async generateCase(input: GenerationInput): Promise<Case> {
     const themePrompt = NEW_CASE_OUTLINE_PROMPT.replace('{{theme}}', input.theme);
-    const result = await this.llm.complete(
-      [{ role: 'user', content: themePrompt }],
-      { json: true, temperature: 1.0, maxTokens: 2500 },
-    );
+    const result = await this.llm.complete([{ role: 'user', content: themePrompt }], {
+      json: true,
+      temperature: 1.0,
+      maxTokens: 2500,
+    });
 
     let parsed: unknown;
     try {
@@ -186,10 +229,10 @@ export class Orchestrator {
       .replace('{{clueList}}', this.formatClueList(caseData))
       .replace('{{redHerrings}}', this.formatRedHerringList(caseData));
 
-    const result = await this.llm.complete(
-      [{ role: 'user', content: prompt }],
-      { temperature: 0.95, maxTokens: 1400 },
-    );
+    const result = await this.llm.complete([{ role: 'user', content: prompt }], {
+      temperature: 0.95,
+      maxTokens: 1400,
+    });
     return result.content.trim();
   }
 

@@ -81,10 +81,10 @@ export class LLMClient {
   async ping(): Promise<{ ok: boolean; latencyMs: number; error?: string }> {
     const start = Date.now();
     try {
-      await this.complete(
-        [{ role: 'user', content: 'Reply with the single word: ready' }],
-        { maxTokens: 8, temperature: 0 },
-      );
+      await this.complete([{ role: 'user', content: 'Reply with the single word: ready' }], {
+        maxTokens: 8,
+        temperature: 0,
+      });
       return { ok: true, latencyMs: Date.now() - start };
     } catch (err) {
       return {

@@ -1,8 +1,8 @@
 # The Cipher Letters
 
-> *Read the words the writer left behind.*
-> *Hear the voice they did not mean to leave.*
-> *Then decide what really happened.*
+> _Read the words the writer left behind._
+> _Hear the voice they did not mean to leave._
+> _Then decide what really happened._
 
 **The Cipher Letters** is an offline-first literary mystery game. You open a
 piece of AI-generated or hand-authored fiction — a letter, a diary, an
@@ -40,16 +40,16 @@ again and again. You notice silences around certain topics. You notice
 the writer using the present tense about someone who should be in
 the past.
 
-You click *sit across from the ghost*. A conversation opens. You ask
+You click _sit across from the ghost_. A conversation opens. You ask
 the ghost — whose name, state, and voice you now know — questions. They
 answer in two or three sentences at a time. They tell you about the
 weather, the postmaster, the kettle. They tell you what they will not
 tell you about.
 
-When you are ready, you click *I am ready to accuse*. You write what
+When you are ready, you click _I am ready to accuse_. You write what
 you think really happened. The Keeper reads it. If you are right, the
 truth unfolds — and after it, a literary Afterword on what the case
-was *about*, beyond the surface mystery.
+was _about_, beyond the surface mystery.
 
 ---
 
@@ -99,7 +99,7 @@ surface text**. We never hide the answer from the player in the
 ghost's private knowledge. The validator (`fairPlayScore`) computes
 how much of the case the player has reconstructed from cited evidence;
 if the score is below threshold, the Keeper will not declare the case
-solved. This is the *Ronald Knox* and *S.S. Van Dine* tradition,
+solved. This is the _Ronald Knox_ and _S.S. Van Dine_ tradition,
 translated into code.
 
 ### 2. Disclosure Threshold
@@ -110,8 +110,8 @@ the right to hear it. The orchestrator computes a
 evidence the player has cited (weight 0.7) with how long they have
 been patient (weight 0.3). At low thresholds the ghost speaks only of
 weather and atmosphere; at high thresholds they begin to admit what
-they have been hiding. This is the *Todorov* tradition — narrative as
-a movement between two equilibria — and the *Booth* tradition of the
+they have been hiding. This is the _Todorov_ tradition — narrative as
+a movement between two equilibria — and the _Booth_ tradition of the
 unreliable narrator whose knowledge is doled out only at the right
 emotional moment.
 
@@ -123,11 +123,11 @@ Every case has three layers of truth:
 - **The Player Truth.** What really happened. What the player must
   reconstruct.
 - **The Meta.** The philosophical / structural insight the case is
-  about. (For *The Lighthouse Keeper*: loneliness, given enough time,
+  about. (For _The Lighthouse Keeper_: loneliness, given enough time,
   does not destroy a person. It gives them a country of their own.)
 
 The Meta is revealed only after the case is solved, as an Afterword.
-This is the *Calvino* tradition — literature that is also a lesson in
+This is the _Calvino_ tradition — literature that is also a lesson in
 how to read literature.
 
 ---
@@ -153,11 +153,17 @@ pnpm start
 
 Then open <http://127.0.0.1:4317>. The three hand-authored cases are
 playable without any LLM at all — the surface text is shipped as
-Markdown next to each case, and the game’s hint engine is fully local.
+Markdown next to each case, the hint engine is fully local, and
+accusations are judged by the local Fair-Play validator (verdicts are
+labelled "judged by the local validator" so you always know).
+
+The one thing that genuinely requires an LLM is the live ghost
+_conversation_ — asking Marlene about the blue envelope and hearing
+her answer. Everything else works offline.
 
 ### Optional: a live ghost (with a local LLM)
 
-If you want the ghost to *actually speak*, install
+If you want the ghost to _actually speak_, install
 [Ollama](https://ollama.com), pull a model, and start the server with
 custom env vars:
 
@@ -187,7 +193,7 @@ curl -X POST http://127.0.0.1:4317/api/cases/generate \
 
 The orchestrator calls the LLM with the `NEW_CASE_OUTLINE_PROMPT`
 template, validates the JSON it returns, and (in a second call) asks
-the LLM to write the surface text with the *Fair Play* contract:
+the LLM to write the surface text with the _Fair Play_ contract:
 every clue must appear, no clue may be added that isn’t in the outline.
 
 ---
@@ -196,15 +202,15 @@ every clue must appear, no clue may be added that isn’t in the outline.
 
 All configuration is via environment variables. See `.env.example`.
 
-| Variable | Default | Meaning |
-|---|---|---|
-| `PORT` | `4317` | HTTP port |
-| `HOST` | `127.0.0.1` | HTTP host |
-| `LLM_BASE_URL` | `http://127.0.0.1:11434/v1` | OpenAI-compatible endpoint |
-| `LLM_API_KEY` | `ollama` | API key (any non-empty string for Ollama) |
-| `LLM_MODEL` | `qwen2.5:7b` | Model name |
-| `LOG_LEVEL` | `info` | Server log verbosity |
-| `NODE_ENV` | (unset) | Set to `production` for prod logging |
+| Variable       | Default                     | Meaning                                   |
+| -------------- | --------------------------- | ----------------------------------------- |
+| `PORT`         | `4317`                      | HTTP port                                 |
+| `HOST`         | `127.0.0.1`                 | HTTP host                                 |
+| `LLM_BASE_URL` | `http://127.0.0.1:11434/v1` | OpenAI-compatible endpoint                |
+| `LLM_API_KEY`  | `ollama`                    | API key (any non-empty string for Ollama) |
+| `LLM_MODEL`    | `qwen2.5:7b`                | Model name                                |
+| `LOG_LEVEL`    | `info`                      | Server log verbosity                      |
+| `NODE_ENV`     | (unset)                     | Set to `production` for prod logging      |
 
 ---
 
@@ -242,10 +248,10 @@ web bundle from `apps/web/dist`.
 The Cipher Letters stands on the work of many. The narrative-theory
 vocabulary (Todorov, Barthes, Genette, Booth, Eco, Culler) is laid out
 in [docs/prompt-design.md](./docs/prompt-design.md). The interactive
-fiction lineage includes *Her Story*, *Return of the Obra Dinn*,
-*The Case of the Golden Idol*, *Disco Elysium*, *AI: The Somnium
-Files*, and *Doki Doki Literature Club*. The literary lineage includes
-Christie, Döblin, Borges, Calvino, and the Japanese *shin-honkaku*
+fiction lineage includes _Her Story_, _Return of the Obra Dinn_,
+_The Case of the Golden Idol_, _Disco Elysium_, _AI: The Somnium
+Files_, and _Doki Doki Literature Club_. The literary lineage includes
+Christie, Döblin, Borges, Calvino, and the Japanese _shin-honkaku_
 tradition. The local-LLM lineage includes Ollama, llama.cpp, and the
 generous work of the Qwen, Mistral, and Llama teams.
 

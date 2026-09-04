@@ -1,7 +1,7 @@
 # Authoring a case
 
 The Cipher Letters ships with three hand-authored cases. They are the
-easiest way to understand what a *good* case looks like; they are
+easiest way to understand what a _good_ case looks like; they are
 also the only way to play the game without an LLM. This document
 explains how to add a new case to the library.
 
@@ -30,8 +30,7 @@ export const myCase: Case = {
   setting: 'One-line atmospheric description of where this happens.',
   tone: 'One-line tonal instruction for the writer.',
 
-  synopsis:
-    'One-paragraph description of what the surface text appears to be about.',
+  synopsis: 'One-paragraph description of what the surface text appears to be about.',
 
   characters: [
     { id: '...', name: '...', role: '...', relationship: '...' },
@@ -50,8 +49,7 @@ export const myCase: Case = {
 
   surfaceNarrative: '150-word summary of the cover story.',
   playerTruth: '150-word summary of what actually happened.',
-  metaReflection:
-    'The philosophical / structural insight the case is about.',
+  metaReflection: 'The philosophical / structural insight the case is about.',
 
   clues: [
     {
@@ -59,9 +57,7 @@ export const myCase: Case = {
       surfaceMeaning: '...',
       hiddenMeaning: '...',
       appearsIn: 'A chapter or section title (or "throughout")',
-      ghostHints: [
-        'Things the ghost might say if the player asks the right question.',
-      ],
+      ghostHints: ['Things the ghost might say if the player asks the right question.'],
     },
     // 5–8 clues is the sweet spot.
   ],
@@ -98,9 +94,9 @@ reads. Constraints:
   "truth" anywhere in the surface text.
 - Do **not** break the fourth wall.
 
-The shipped cases are the best reference. *The Last Letter* uses
-the blue envelope; *The Lighthouse Keeper* uses the kettle; *The
-Studio Interview* uses the microphone. Each image is ordinary on
+The shipped cases are the best reference. _The Last Letter_ uses
+the blue envelope; _The Lighthouse Keeper_ uses the kettle; _The
+Studio Interview_ uses the microphone. Each image is ordinary on
 the surface but acquires a second meaning in light of the hidden
 truth.
 
@@ -132,21 +128,21 @@ Every case has three layers of truth:
 
 1. **Surface** (`surfaceNarrative`) — what the text claims.
 2. **Player truth** (`playerTruth`) — what the player must discover.
-3. **Meta** (`metaReflection`) — what the case is *about* beyond the
+3. **Meta** (`metaReflection`) — what the case is _about_ beyond the
    mystery.
 
 The meta is the hardest to write and the most important. A good meta
-is a *real* insight — about narrative, memory, grief, identity, or
+is a _real_ insight — about narrative, memory, grief, identity, or
 time — not a generic platitude. Read the metas of the three shipped
 cases for examples:
 
-- *The Last Letter*: grief sometimes makes a person write letters
+- _The Last Letter_: grief sometimes makes a person write letters
   to the dead, and sometimes makes them write letters that pretend
   the dead are still alive. Both are ways of refusing to let the
   line of correspondence end.
-- *The Lighthouse Keeper*: loneliness, given enough time, does not
+- _The Lighthouse Keeper_: loneliness, given enough time, does not
   destroy a person. It gives them a country of their own.
-- *The Studio Interview*: performance is a place where the dead can
+- _The Studio Interview_: performance is a place where the dead can
   speak through the living.
 
 If you can write a sentence the player will carry with them after

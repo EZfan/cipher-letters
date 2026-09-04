@@ -57,7 +57,7 @@ to the server on port 4317.
 3. Before pushing, run:
 
    ```bash
-   pnpm lint typecheck test
+   pnpm lint && pnpm typecheck && pnpm test
    ```
 
 4. Open the PR. Use the [PR template](./.github/PULL_REQUEST_TEMPLATE.md).

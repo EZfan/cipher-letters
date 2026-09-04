@@ -53,7 +53,7 @@ export function App() {
         </AnimatePresence>
       </main>
       <footer className="relative z-10 text-center py-8 text-parchment-200/40 text-sm">
-        <span className="ornament">The Cipher Letters — local-first, fully offline</span>
+        <span className="ornament">The Cipher Letters — local-first literary mysteries</span>
       </footer>
     </div>
   );

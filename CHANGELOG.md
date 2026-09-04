@@ -7,12 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-09-03
+### Fixed
+
+- The server now resolves the web bundle and the shipped case texts
+  relative to its own module location, so `pnpm start` serves the full
+  game and complete surface narratives regardless of the working
+  directory it was launched from (previously both silently fell back
+  when started from `packages/server`).
+- Submitting an accusation with no LLM backend reachable no longer
+  fails: the judge degrades to the local Fair-Play validator, and each
+  verdict response carries a `judgedBy` field (`llm` or `validator`)
+  shown in the UI. Ghost _conversation_ still requires an LLM and now
+  returns a clear 503 explaining why.
+- `pnpm lint` is real: ESLint 9 (typescript-eslint flat config) added
+  at the repo root, replacing per-package scripts that referenced a
+  dependency nobody had installed. CI now runs lint and format check
+  as separate steps.
+
+## [0.1.0] - 2026-09-04
 
 ### Added
+
 - Initial release.
-- Three hand-authored cases: *The Last Letter* (easy), *The Lighthouse
-  Keeper's Diary* (medium), *The Studio Interview* (hard). Each ships
+- Three hand-authored cases: _The Last Letter_ (easy), _The Lighthouse
+  Keeper's Diary_ (medium), _The Studio Interview_ (hard). Each ships
   with its full surface narrative as Markdown.
 - Monorepo with `@cipher/shared`, `@cipher/server`, `@cipher/web`
   packages and a pnpm workspace.
@@ -26,8 +44,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (Fraunces + Source Serif 4), drop-cap opening, scrollytelling
   transitions powered by Motion.
 - Orchestrator that runs ghost conversations under a
-  *disclosure threshold* constraint, judges accusations against the
-  *fair-play score*, and generates fresh cases from a theme prompt.
+  _disclosure threshold_ constraint, judges accusations against the
+  _fair-play score_, and generates fresh cases from a theme prompt.
 - In-memory session store. Sessions do not survive a server restart.
 - Validator utilities (`fairPlayScore`, `disclosureThreshold`,
   `hintLevel`) tested through Vitest.
@@ -35,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   SPA fallback.
 
 ### Notes
+
 - No external LLM is required to play the shipped cases — every case
   has a fully pre-written surface text, and the hint system is local.
 - Live ghost conversation requires an OpenAI-compatible endpoint

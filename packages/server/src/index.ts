@@ -11,10 +11,35 @@ import cors from '@fastify/cors';
 import staticPlugin from '@fastify/static';
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { LLMClient } from './llm-client.js';
 import { Orchestrator } from './orchestrator.js';
 import { SessionStore } from './session-store.js';
 import { registerRoutes } from './routes.js';
+
+/**
+ * Candidate locations of the built web bundle, tried in order:
+ *  1. relative to this file — `packages/server/{src,dist}` is one level
+ *     below the package root, so `../../apps/web/dist` is correct for
+ *     both `tsx src/index.ts` and `node dist/index.js`
+ *  2. relative to the process working directory (monorepo-root runs)
+ */
+async function resolveWebDist(): Promise<string | null> {
+  const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  const candidates = [
+    path.resolve(serverRoot, '..', '..', 'apps', 'web', 'dist'),
+    path.resolve(process.cwd(), 'apps', 'web', 'dist'),
+  ];
+  for (const dir of candidates) {
+    try {
+      await fs.access(dir);
+      return dir;
+    } catch {
+      // try the next candidate
+    }
+  }
+  return null;
+}
 
 const PORT = Number(process.env.PORT ?? 4317);
 const HOST = process.env.HOST ?? '127.0.0.1';
@@ -29,7 +54,10 @@ async function main(): Promise<void> {
       level: process.env.LOG_LEVEL ?? 'info',
       transport:
         process.env.NODE_ENV !== 'production'
-          ? { target: 'pino-pretty', options: { translateTime: 'HH:MM:ss', ignore: 'pid,hostname' } }
+          ? {
+              target: 'pino-pretty',
+              options: { translateTime: 'HH:MM:ss', ignore: 'pid,hostname' },
+            }
           : undefined,
     },
   });
@@ -50,10 +78,9 @@ async function main(): Promise<void> {
   await registerRoutes(app, { orchestrator, sessions, llm });
 
   // Serve the built web app if it exists (production mode).
-  const webDist = path.resolve(process.cwd(), 'apps/web/dist');
+  const webDist = await resolveWebDist();
   let webUiServed = false;
-  try {
-    await fs.access(webDist);
+  if (webDist) {
     await app.register(staticPlugin, { root: webDist, prefix: '/' });
     app.log.info(`Serving web UI from ${webDist}`);
     webUiServed = true;
@@ -64,7 +91,7 @@ async function main(): Promise<void> {
       }
       return reply.sendFile('index.html');
     });
-  } catch {
+  } else {
     app.log.info('Web UI not built — run `pnpm --filter @cipher/web build` to enable.');
   }
 

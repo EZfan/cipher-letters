@@ -56,6 +56,8 @@ export interface AccusationVerdict {
   verdict: 'solved' | 'partial' | 'wrong';
   message: string;
   fairPlayScore: number;
+  /** How the verdict was reached: LLM semantic reading, or the local validator (offline mode). */
+  judgedBy: 'llm' | 'validator';
   metaReflection: string | null;
   truthRevealed: boolean;
   hiddenTruth: string | null;
@@ -68,7 +70,10 @@ export interface HintResponse {
 }
 
 export class ApiError extends Error {
-  constructor(message: string, public readonly status?: number) {
+  constructor(
+    message: string,
+    public readonly status?: number,
+  ) {
     super(message);
     this.name = 'ApiError';
   }

@@ -54,9 +54,7 @@ export function Interrogation() {
               <span className="font-display text-2xl text-ember-600">
                 {session.citedClueIds.length}
               </span>{' '}
-              <span className="text-ink-900/40">of</span>{' '}
-              <span className="text-ink-900/60">~{c.synopsis.length > 0 ? 'several' : '5'}</span>{' '}
-              threads found
+              <span className="text-ink-900/40">threads found — the case holds more</span>
             </p>
             {hint && (
               <p className="mt-4 text-sm font-serif text-ink-900/80 italic border-l-2 border-ember-600/40 pl-3">
@@ -91,7 +89,10 @@ export function Interrogation() {
             </p>
           </header>
 
-          <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scroll-fade-mask">
+          <div
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scroll-fade-mask"
+          >
             {turns.length === 0 && (
               <p className="font-serif italic text-ink-900/40 text-center py-12">
                 Say something. They are listening.
@@ -126,11 +127,7 @@ export function Interrogation() {
               ))}
             </AnimatePresence>
             {ghostBusy && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-left"
-              >
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-left">
                 <div className="inline-block px-4 py-3 bg-ink-900/5 border-l-2 border-ember-600/60">
                   <span className="font-serif italic text-ink-900/60 animate-pulse-soft">
                     … the ghost is thinking …

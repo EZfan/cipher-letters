@@ -33,9 +33,7 @@ export function SurfaceReader({ text, title, subtitle, dateLine }: Props) {
           <h1 className="font-display text-4xl md:text-5xl font-light text-ink-900 mb-3 italic">
             {title}
           </h1>
-          {subtitle && (
-            <p className="font-serif text-ink-900/60 italic">{subtitle}</p>
-          )}
+          {subtitle && <p className="font-serif text-ink-900/60 italic">{subtitle}</p>}
         </header>
       )}
 

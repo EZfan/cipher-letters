@@ -46,11 +46,7 @@ export interface SessionState {
 export class SessionStore {
   private readonly sessions = new Map<string, SessionState>();
 
-  create(args: {
-    caseId: string;
-    caseData: Case;
-    surfaceText: string;
-  }): SessionState {
+  create(args: { caseId: string; caseData: Case; surfaceText: string }): SessionState {
     const id = randomUUID();
     const session: SessionState = {
       id,
@@ -79,9 +75,9 @@ export class SessionStore {
 
   markProgress(sessionId: string, newClueIds: readonly string[]): SessionState {
     const session = this.require(sessionId);
-    const before = new Set(session.citedClueIds);
+    const before = session.citedClueIds.length;
     session.citedClueIds = Array.from(new Set([...session.citedClueIds, ...newClueIds]));
-    if (newClueIds.length > 0) session.turnsSinceProgress = 0;
+    if (session.citedClueIds.length > before) session.turnsSinceProgress = 0;
     else session.turnsSinceProgress += 1;
     return { ...session };
   }

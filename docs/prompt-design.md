@@ -35,7 +35,7 @@ treat them as small essays, not as SQL queries.
 
 ### Negative instructions > positive instructions
 
-We tell the LLM what *not* to do at least as often as what to do.
+We tell the LLM what _not_ to do at least as often as what to do.
 This is empirically more reliable than positive framing for
 voice-and-tone tasks: "do not use modern internet slang" gives
 sharper results than "use period-appropriate diction."
@@ -44,7 +44,7 @@ sharper results than "use period-appropriate diction."
 
 The surface-text prompt is given both the hidden truth
 (`{{hiddenTruth}}`) and the public story (`{{surfaceTruth}}`). It is
-the LLM's job to *hide* the truth behind the surface. This is
+the LLM's job to _hide_ the truth behind the surface. This is
 deliberate. The alternative — asking the LLM to invent a hidden
 truth on its own — produces surface texts that leak too easily,
 because the LLM cannot help but reveal what it is hiding.
@@ -57,7 +57,7 @@ the final reply, and decided against it. Three reasons:
 1. It roughly doubles token usage.
 2. The intermediate reasoning tends to leak into the final answer in
    small models (Qwen 2.5 7B).
-3. We have no way to *hide* the reasoning from the player — it ends
+3. We have no way to _hide_ the reasoning from the player — it ends
    up in the ghost's response, and the ghost suddenly sounds like an
    analyst rather than a person.
 
@@ -76,8 +76,8 @@ Every prompt has a recommended `temperature`:
 - `1.0` for case generation (we want maximum creative divergence)
 
 If you change a temperature, change it in `orchestrator.ts`, not in
-the prompt. Prompts are for *content*; temperatures are for *quality
-of the response*.
+the prompt. Prompts are for _content_; temperatures are for _quality
+of the response_.
 
 ## The ghost prompt in detail
 
@@ -93,11 +93,11 @@ the truth**. We resolve this through three constraints:
 2. **The ghost is told what it will not say.** The `{{refusesToSay}}`
    and `{{willAdmit}}` placeholders give the orchestrator explicit
    hooks for the closure of the case. Even if the disclosure
-   threshold goes to 1, the ghost will only admit the *closest*
+   threshold goes to 1, the ghost will only admit the _closest_
    version of the truth it can.
 3. **The ghost is told to use silence, not lies.** A line in the
    prompt explicitly forbids denial of the truth when the player
-   guesses it; the ghost's *reaction* is its answer. This is a
+   guesses it; the ghost's _reaction_ is its answer. This is a
    surprisingly strong signal in playtesting — players read the
    silence much better than they read the words.
 
@@ -117,7 +117,7 @@ This means:
 
 ## The surface text prompt in detail
 
-The surface text prompt is the *largest* prompt we have, and the
+The surface text prompt is the _largest_ prompt we have, and the
 one most prone to drift. To keep it on-rails, we make five explicit
 asks:
 
@@ -125,13 +125,13 @@ asks:
    enumerated at the end of the prompt so the model cannot abstract
    them away.
 2. **Include at least one red herring.** The red herring list is
-   enumerated separately so the model knows they are *not* part of
+   enumerated separately so the model knows they are _not_ part of
    the truth.
 3. **Use a recurring image at least three times.** This is the
    "key object" of the case — the blue envelope, the kettle, the
    microphone. The LLM is told to make it ordinary on the surface
    but load-bearing in light of the truth.
-4. **End closed.** The text should *feel* complete. The attentive
+4. **End closed.** The text should _feel_ complete. The attentive
    reader will notice the silence around one specific thing; the
    casual reader will not.
 5. **Do not announce that something is hidden.** No "secret",
@@ -146,7 +146,7 @@ the surface text is doing its job.
 
 ## The judge prompt in detail
 
-The judge prompt is the *shortest* and the most tightly constrained.
+The judge prompt is the _shortest_ and the most tightly constrained.
 It does four things:
 
 1. Reads the surface text (so it knows what the player has seen).
@@ -158,8 +158,8 @@ It does four things:
    comes with a clarifying question; a wrong verdict comes with a
    gentle nudge back toward the text.
 
-We deliberately do not use the fair-play score to *determine* the
-verdict — only as an *advisory* input. Two reasons:
+We deliberately do not use the fair-play score to _determine_ the
+verdict — only as an _advisory_ input. Two reasons:
 
 - The LLM can read the accusation semantically and tell whether the
   player has the right idea even if their phrasing is rough.
@@ -168,12 +168,22 @@ verdict — only as an *advisory* input. Two reasons:
 
 If the LLM produces a malformed verdict (no `VERDICT:` line, for
 instance), the orchestrator falls back to `WRONG` and uses the raw
-output as the message. This is rare in practice — Qwen 2.5 7B and
-Llama 3 8B both follow the format reliably after a single example.
+output as the message. In our own manual runs small instruct models
+have respected the format, but this has not been systematically
+benchmarked across models — treat it as a design expectation, not a
+guarantee.
+
+When no LLM backend is reachable at all, the judge itself is
+replaced: `Orchestrator.heuristicVerdict` scores the accusation with
+the local Fair-Play validator (conservative thresholds — at least
+half the case's clues must be surfaced by the player's own words for
+a SOLVED). Verdict responses carry a `judgedBy` field (`llm` or
+`validator`) so the UI — and you — always know which path produced
+the result.
 
 ## The Afterword prompt in detail
 
-The Afterword is written *after* the player has solved the case. The
+The Afterword is written _after_ the player has solved the case. The
 prompt has only one ask: connect the case to a wider truth.
 
 ```
@@ -183,8 +193,8 @@ shown AFTER they solve it.
 
 is the key constraint. We deliberately do not give the Afterword
 author the player's exact accusation — only the truth they
-discovered. This keeps the Afterword a *literary* reflection rather
-than a *personal* one. If the project ever ships user-authored
+discovered. This keeps the Afterword a _literary_ reflection rather
+than a _personal_ one. If the project ever ships user-authored
 cases, the Afterword is one place where the case author's voice is
 allowed to come through clearly.
 
@@ -197,7 +207,7 @@ instructs the model to:
 - Provide 2–3 red herrings that look like real clues but lead nowhere.
 - Differentiate the ghost's `refusesToSay` and `willAdmit` — they
   must be different formulations of the same hidden fact.
-- Provide a meta-reflection that is a *real insight* (about
+- Provide a meta-reflection that is a _real insight_ (about
   narrative, memory, grief, identity, or time), not a platitude.
 
 The orchestrator validates the JSON shape against the `Case` type

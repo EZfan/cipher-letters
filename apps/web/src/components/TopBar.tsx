@@ -16,7 +16,9 @@ export function TopBar() {
           <span className="font-display text-2xl italic text-parchment-100 group-hover:text-parchment-50 transition-colors">
             The Cipher Letters
           </span>
-          <span className="hidden sm:inline text-parchment-200/40 text-sm">— A literary mystery</span>
+          <span className="hidden sm:inline text-parchment-200/40 text-sm">
+            — A literary mystery
+          </span>
         </button>
 
         <div className="flex items-center gap-4 text-xs">
@@ -48,9 +50,12 @@ function LlmStatusDot({ available }: { available: boolean | null }) {
     );
   }
   return (
-    <span className="flex items-center gap-2 text-parchment-200/40" title="LLM is not reachable — you can still play the shipped cases in pre-written mode">
+    <span
+      className="flex items-center gap-2 text-parchment-200/40"
+      title="LLM is not reachable — read, hint, and accusation-judging all work locally; only the live conversation needs a model"
+    >
       <span className="w-1.5 h-1.5 rounded-full bg-amber-500/60" />
-      ghost silent — pre-written text only
+      ghost silent — offline mode
     </span>
   );
 }

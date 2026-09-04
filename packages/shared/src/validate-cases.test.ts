@@ -77,10 +77,7 @@ describe('shipped cases — structural invariants', () => {
         for (const word of FORBIDDEN_WORDS) {
           // Whole-word match so "lie" does not trip on "believe"/"life".
           const pattern = new RegExp(`\\b${word}\\b`);
-          expect(
-            pattern.test(text),
-            `forbidden word "${word}" found in surface text`,
-          ).toBe(false);
+          expect(pattern.test(text), `forbidden word "${word}" found in surface text`).toBe(false);
         }
       });
 
@@ -88,10 +85,9 @@ describe('shipped cases — structural invariants', () => {
         for (const clue of c.clues) {
           const haystack = clue.surfaceMeaning + '. ' + clue.ghostHints.join('. ');
           const found = extractCitedClues(haystack, c).map((x) => x.id);
-          expect(
-            found,
-            `clue ${clue.id} cannot be found from its own definition`,
-          ).toContain(clue.id);
+          expect(found, `clue ${clue.id} cannot be found from its own definition`).toContain(
+            clue.id,
+          );
         }
       });
     });

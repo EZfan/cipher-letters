@@ -75,6 +75,10 @@ The HTTP layer. Built on Fastify. Holds:
     hinted clue IDs.
   - `judgeAccusation(case, accusation)` — runs the accusation
     through the `ACCUSATION_JUDGE_PROMPT` and parses the verdict.
+  - `heuristicVerdict(case, accusation)` — the LLM-free fallback
+    judge. Scores the accusation with the local Fair-Play validator
+    and applies conservative thresholds; used when the LLM backend is
+    unreachable so the game stays fully playable offline.
   - `generateMetaReflection(case)` — produces the literary Afterword
     shown after a case is solved.
   - `generateCase(input)` — produces a brand-new case outline (JSON)
@@ -176,17 +180,32 @@ POST /api/sessions/:id/accuse  { accusation }
        ▼
   LLM.complete(ACCUSATION_JUDGE_PROMPT, { temperature: 0.3 })
        │
-       ▼
-  parse verdict: SOLVED | PARTIAL | WRONG
-       │
-       ▼
+       ├── LLM reachable ──────────────────────────────┐
+       ▼                                               │
+  parse verdict: SOLVED | PARTIAL | WRONG              │
+       │                                               │
+       │            LLM unreachable (offline mode)     │
+       ├──────────────────────────────────────────────►│
+       │                                               ▼
+       │                      orchestrator.heuristicVerdict
+       │                      (local Fair-Play validator;
+       │                       SOLVED requires ≥ 50% of the
+       │                       case's clues cited by the player)
+       │                                               │
+       ▼                                               ▼
   if SOLVED:
-       orchestrator.generateMetaReflection(case)
-       sessions.markStatus('solved')
-       returns { verdict, metaReflection, hiddenTruth, meta }
-  else:
-       returns { verdict }
+       generateMetaReflection(case)   ← falls back to the case's
+       │                                shipped metaReflection if
+       │                                the LLM is unreachable
+       ▼
+  sessions.markStatus('solved')
+  returns { verdict, judgedBy: 'llm' | 'validator',
+            metaReflection, hiddenTruth, meta }
 ```
+
+The `judgedBy` field travels to the client and is shown in the UI, so
+the player always knows whether the verdict came from the Keeper's
+semantic reading or from the local validator.
 
 ## Why an in-memory store?
 
@@ -216,7 +235,7 @@ file per session (also fine). Both are straightforward.
   The client displays it.
 - **LLM hallucinating facts not in the case** — the orchestrator
   protects against this in two places:
-  1. The ghost's system prompt is rebuilt every turn with the *current*
+  1. The ghost's system prompt is rebuilt every turn with the _current_
      disclosure threshold, so the LLM has no "memory" of an earlier
      (more permissive) prompt.
   2. The accusation judge is given only the case's

@@ -1,6 +1,6 @@
 # The Log of the Western Light
 
-*Diary of Thomas W. Harker, keeper of the Western Light, North Atlantic, 1971.*
+_Diary of Thomas W. Harker, keeper of the Western Light, North Atlantic, 1971._
 
 ---
 
@@ -10,7 +10,7 @@
 
 **9 April.** The weather radio says rain. The weather radio is often wrong, but it speaks to me, after a fashion. I have learned its language. It is a kind one, mostly. The kettle. Yes. I am making the kettle a small shawl tonight, from a piece of wool Elisabeth left behind. Elisabeth has not been here in some time. I do not remember when last she came.
 
-**22 April.** Halvard came today. Or — I believe Halvard came today. He brought the usual — flour, kerosene, the news from the south. He said the war is over. I did not know there was a war. I said I did not know there was a war. He laughed and said, *Thomas, you have been here too long.* I said, *Yes. I have.* The kettle told me it was autumn again. The kettle is reliable. I put the new flour in the tin and watched the Bjørnøy pull away and then I went to bed, and in the morning I could not remember if I had been awake.
+**22 April.** Halvard came today. Or — I believe Halvard came today. He brought the usual — flour, kerosene, the news from the south. He said the war is over. I did not know there was a war. I said I did not know there was a war. He laughed and said, _Thomas, you have been here too long._ I said, _Yes. I have._ The kettle told me it was autumn again. The kettle is reliable. I put the new flour in the tin and watched the Bjørnøy pull away and then I went to bed, and in the morning I could not remember if I had been awake.
 
 **3 May.** Calm again. The lamp trimmed. The kettle sang. I read aloud to it from the book on the table. Margaret would have liked the book. I have not decided whether I will tell her about it. There is a thing I want to say to her that I have not yet found the words for.
 
@@ -34,7 +34,6 @@
 
 ---
 
-*(In the margins of the final page, in a different hand, much later:)*
+_(In the margins of the final page, in a different hand, much later:)_
 
-> *Found the diary in the lighthouse basement on the twentieth of September, in the year 2001. The lamp had not been lit in some time. The kettle was on the stove. It whistled when I touched it. There was a man on the gallery, sitting in the chair, looking out at the sea. He had been dead, the doctor said, for at least a year. The drawer in the parlour held 412 sealed letters addressed to a Margaret Harker, none of which had ever been sent.*
-
+> _Found the diary in the lighthouse basement on the twentieth of September, in the year 2001. The lamp had not been lit in some time. The kettle was on the stove. It whistled when I touched it. There was a man on the gallery, sitting in the chair, looking out at the sea. He had been dead, the doctor said, for at least a year. The drawer in the parlour held 412 sealed letters addressed to a Margaret Harker, none of which had ever been sent._

@@ -40,7 +40,7 @@ export default {
         'page-turn': 'page-turn 0.8s ease-in-out forwards',
         'fade-in': 'fade-in 0.8s ease-out forwards',
         'reveal-up': 'reveal-up 0.5s ease-out forwards',
-        'typewriter': 'typewriter 1.2s steps(40) forwards',
+        typewriter: 'typewriter 1.2s steps(40) forwards',
         'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
       },
       keyframes: {

@@ -26,7 +26,8 @@ export function Reveal() {
           {verdict.message}
         </p>
         <p className="text-xs text-parchment-200/40 mt-4 font-sans uppercase tracking-wider">
-          fair-play score · {Math.round(verdict.fairPlayScore * 100)}%
+          fair-play score · {Math.round(verdict.fairPlayScore * 100)}% ·{' '}
+          {verdict.judgedBy === 'llm' ? 'judged by the keeper' : 'judged by the local validator'}
         </p>
       </motion.div>
 
@@ -57,9 +58,7 @@ export function Reveal() {
           )}
 
           {verdict.meta && (
-            <p className="font-serif text-ink-900/60 text-sm mt-8 italic">
-              {verdict.meta}
-            </p>
+            <p className="font-serif text-ink-900/60 text-sm mt-8 italic">{verdict.meta}</p>
           )}
         </motion.section>
       )}

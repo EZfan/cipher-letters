@@ -59,8 +59,10 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-conduct@cipher-letters.dev (or open a private GitHub issue with the maintainer at https://github.com/EZfan/cipher-letters). All complaints will be reviewed and investigated
+reported to the community leaders responsible for enforcement through
+[GitHub's private contact options](https://github.com/EZfan/cipher-letters) —
+use a private security advisory or a direct message to a maintainer rather than
+a public issue. All complaints will be reviewed and investigated
 promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

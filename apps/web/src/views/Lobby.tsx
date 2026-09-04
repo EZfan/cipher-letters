@@ -53,9 +53,7 @@ export function Lobby() {
             <h2 className="font-display text-2xl italic text-ink-900 mb-3 group-hover:text-ember-600 transition-colors">
               {c.title}
             </h2>
-            <p className="font-serif text-ink-900/70 text-sm leading-relaxed mb-6">
-              {c.synopsis}
-            </p>
+            <p className="font-serif text-ink-900/70 text-sm leading-relaxed mb-6">{c.synopsis}</p>
 
             <div className="flex items-center justify-between text-xs text-ink-900/40 font-sans">
               <span>~{c.estimatedPlayMinutes} min</span>
@@ -74,8 +72,8 @@ export function Lobby() {
         >
           <p>
             The ghost is silent — your LLM is not reachable. You can still play every case in
-            pre-written mode; the surface text and the truth are both encoded in the case file
-            itself, no model needed.
+            offline mode: the surface text is shipped with the game, hints are local, and your
+            accusation is judged by the local validator. Only the live conversation needs a model.
           </p>
         </motion.div>
       )}

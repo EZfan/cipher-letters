@@ -27,8 +27,8 @@ export function Accusation() {
           What really happened.
         </h2>
         <p className="font-serif text-parchment-200/70 max-w-xl mx-auto leading-relaxed">
-          Speak it plainly. No poetry. No metaphor. The ghost will not be persuaded by grace;
-          only by truth. Cite what you found in the text.
+          Speak it plainly. No poetry. No metaphor. The ghost will not be persuaded by grace; only
+          by truth. Cite what you found in the text.
         </p>
       </header>
 
@@ -43,9 +43,7 @@ export function Accusation() {
           className="w-full bg-transparent outline-none font-serif text-ink-900 placeholder:text-ink-900/30 resize-none leading-relaxed text-lg"
         />
         <div className="flex items-center justify-between mt-6 pt-6 border-t border-ink-900/10">
-          <span className="text-xs text-ink-900/40 font-sans">
-            {text.length} / 2000
-          </span>
+          <span className="text-xs text-ink-900/40 font-sans">{text.length} / 2000</span>
           <button
             onClick={submit}
             disabled={ghostBusy || text.length < 10}

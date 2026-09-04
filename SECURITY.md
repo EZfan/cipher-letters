@@ -2,15 +2,15 @@
 
 ## Supported Versions
 
-| Version | Supported          |
-|---------|--------------------|
+| Version | Supported             |
+| ------- | --------------------- |
 | 0.1.x   | ✅ Active development |
 
 ## Reporting a Vulnerability
 
 Please **DO NOT** open a public GitHub issue for security vulnerabilities.
 
-Email **security@cipher-letters.dev**, or use [GitHub's private vulnerability reporting](https://github.com/EZfan/cipher-letters/security/advisories/new), with:
+Use [GitHub's private vulnerability reporting](https://github.com/EZfan/cipher-letters/security/advisories/new), with:
 
 1. A clear description of the vulnerability and its impact.
 2. Reproduction steps — preferably a `curl` script that demonstrates the

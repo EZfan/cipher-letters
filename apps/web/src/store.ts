@@ -10,7 +10,15 @@ import { api, type SessionState, type AccusationVerdict, type HintResponse } fro
 
 interface GameState {
   phase: 'lobby' | 'reading' | 'conversation' | 'accusation' | 'reveal';
-  cases: { id: string; title: string; genre: string; difficulty: string; synopsis: string; estimatedPlayMinutes: number; tags: readonly string[] }[];
+  cases: {
+    id: string;
+    title: string;
+    genre: string;
+    difficulty: string;
+    synopsis: string;
+    estimatedPlayMinutes: number;
+    tags: readonly string[];
+  }[];
   llmAvailable: boolean | null;
   session: SessionState | null;
   ghostBusy: boolean;

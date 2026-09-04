@@ -19,6 +19,7 @@ import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { SHIPPED_CASES, type Case } from '@cipher/shared';
 import { type Orchestrator } from './orchestrator.js';
 import { type SessionStore } from './session-store.js';
@@ -32,25 +33,34 @@ export interface RouteDeps {
 }
 
 /**
+ * This package's root (`packages/server`), resolved from the module file
+ * itself so it works no matter where the process was started from —
+ * `src/` under tsx and `dist/` under node both sit one level below it.
+ */
+const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+function sharedPath(...segments: string[]): string {
+  return path.resolve(serverRoot, '..', 'shared', ...segments);
+}
+
+/**
  * The "shipped" surface text lives next to each case file as a separate
  * artefact so that the LLM-free experience is identical every time.
  * If the file is missing, we fall back to the synopsis as a minimal surface.
  */
 async function tryFetchShippedSurface(caseData: Case): Promise<string> {
-  try {
-    const filePath = path.join(
-      process.cwd(),
-      'packages',
-      'shared',
-      'src',
-      'cases',
-      'text',
-      `${caseData.id}.md`,
-    );
-    return await fs.readFile(filePath, 'utf8');
-  } catch {
-    return caseData.synopsis;
+  const candidates = [
+    sharedPath('src', 'cases', 'text', `${caseData.id}.md`),
+    path.join(process.cwd(), 'packages', 'shared', 'src', 'cases', 'text', `${caseData.id}.md`),
+  ];
+  for (const filePath of candidates) {
+    try {
+      return await fs.readFile(filePath, 'utf8');
+    } catch {
+      // try the next candidate
+    }
   }
+  return caseData.synopsis;
 }
 
 /**
@@ -211,13 +221,27 @@ export async function registerRoutes(app: FastifyInstance, deps: RouteDeps): Pro
       timestamp: Date.now(),
     });
 
-    const result = await orchestrator.ghostReply({
-      caseData,
-      conversation: session.conversation,
-      playerInput: parsed.data.message,
-      turnsSoFar: session.conversation.length,
-      citedClueCount: session.citedClueIds.length + newlyCited.length,
-    });
+    let result;
+    try {
+      result = await orchestrator.ghostReply({
+        caseData,
+        conversation: session.conversation,
+        playerInput: parsed.data.message,
+        turnsSoFar: session.conversation.length,
+        citedClueCount: session.citedClueIds.length + newlyCited.length,
+      });
+    } catch (err) {
+      // Roll the player turn back out of the stored history? No — keep
+      // it: the player said what they said. But tell them clearly that
+      // the ghost could not answer, and why.
+      req.log.warn({ err }, 'LLM ghost turn failed');
+      return reply.code(503).send({
+        error:
+          'The ghost is silent — no LLM backend is reachable. Conversation requires one; ' +
+          'the accusation judge falls back to the local validator, but the dialogue does not. ' +
+          'See README ("a live ghost") to connect Ollama or any OpenAI-compatible endpoint.',
+      });
+    }
 
     sessions.appendTurn(session.id, {
       role: 'ghost',
@@ -227,7 +251,9 @@ export async function registerRoutes(app: FastifyInstance, deps: RouteDeps): Pro
       timestamp: Date.now(),
     });
 
-    const allCited = Array.from(new Set([...session.citedClueIds, ...result.hintedClueIds]));
+    const allCited = Array.from(
+      new Set([...session.citedClueIds, ...newlyCited, ...result.hintedClueIds]),
+    );
     sessions.markProgress(session.id, allCited);
 
     return sessions.get(session.id);
@@ -246,15 +272,37 @@ export async function registerRoutes(app: FastifyInstance, deps: RouteDeps): Pro
     const caseData = SHIPPED_CASES.find((c) => c.id === session.caseId);
     if (!caseData) return reply.code(500).send({ error: 'Case missing for session' });
 
-    const verdict = await orchestrator.judgeAccusation(caseData, parsed.data.accusation);
-    const metaReflection = verdict.verdict === 'solved'
-      ? await orchestrator.generateMetaReflection(caseData)
-      : null;
+    // Preferred path: the LLM reads the accusation semantically. If no
+    // LLM backend is reachable, we degrade gracefully to the local
+    // Fair-Play validator so the game stays fully playable offline.
+    let verdict;
+    let judgedBy: 'llm' | 'validator';
+    try {
+      verdict = await orchestrator.judgeAccusation(caseData, parsed.data.accusation);
+      judgedBy = 'llm';
+    } catch (err) {
+      req.log.warn({ err }, 'LLM judge unavailable — falling back to local validator');
+      verdict = orchestrator.heuristicVerdict(caseData, parsed.data.accusation);
+      judgedBy = 'validator';
+    }
+
+    // The Afterword is LLM-written when possible; the hand-authored
+    // meta-reflection shipped with the case is the offline fallback.
+    let metaReflection: string | null = null;
+    if (verdict.verdict === 'solved') {
+      try {
+        metaReflection = await orchestrator.generateMetaReflection(caseData);
+      } catch (err) {
+        req.log.warn({ err }, 'LLM Afterword unavailable — using shipped meta-reflection');
+        metaReflection = caseData.metaReflection;
+      }
+    }
 
     sessions.markStatus(session.id, verdict.verdict === 'solved' ? 'solved' : 'playing');
 
     return {
       verdict,
+      judgedBy,
       metaReflection,
       truthRevealed: verdict.verdict === 'solved',
       hiddenTruth: verdict.verdict === 'solved' ? caseData.playerTruth : null,
