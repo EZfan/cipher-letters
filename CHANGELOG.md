@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.0.0 (2026-09-04)
+
+
+### Features
+
+* initial release of The Cipher Letters v0.1.0 ([355c1f9](https://github.com/EZfan/cipher-letters/commit/355c1f9fb10d45ffab7fd400b7662cdfdc3b6002))
+* pixel-art game theme — title screen, ghost portraits, RPG dialog, 8-bit sound ([a0433d6](https://github.com/EZfan/cipher-letters/commit/a0433d6f5b2f4b8ee9e9e225354bad2341504949))
+* README screenshots + fix accusation verdict shape (solved never displayed) ([eca9bd0](https://github.com/EZfan/cipher-letters/commit/eca9bd0807c536caad7d91e601f7d99478598b30))
+
+
+### Bug Fixes
+
+* accuracy audit — path resolution, offline judge, real lint, honest docs ([daf9813](https://github.com/EZfan/cipher-letters/commit/daf981334eafa4534c7ade5dd24a2d7fb657ec60))
+
 ## [Unreleased]
 
 ### Added

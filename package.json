@@ -1,6 +1,6 @@
 {
   "name": "cipher-letters",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "An offline-first AI literary mystery game. Read generated literature, interrogate the ghost who wrote it, and uncover the truth hidden between the lines.",
   "type": "module",
