@@ -300,8 +300,10 @@ export async function registerRoutes(app: FastifyInstance, deps: RouteDeps): Pro
 
     sessions.markStatus(session.id, verdict.verdict === 'solved' ? 'solved' : 'playing');
 
+    // Flatten: the client's AccusationVerdict is the verdict object with
+    // judgedBy / metaReflection / truth fields spread on top of it.
     return {
-      verdict,
+      ...verdict,
       judgedBy,
       metaReflection,
       truthRevealed: verdict.verdict === 'solved',

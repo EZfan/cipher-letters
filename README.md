@@ -1,19 +1,42 @@
+<div align="center">
+
 # The Cipher Letters
 
-> _Read the words the writer left behind._
-> _Hear the voice they did not mean to leave._
-> _Then decide what really happened._
+_Read the words the writer left behind._
+_Hear the voice they did not mean to leave._
+_Then decide what really happened._
 
-**The Cipher Letters** is an offline-first literary mystery game. You open a
-piece of AI-generated or hand-authored fiction — a letter, a diary, an
-interview — and discover that the writer is hiding something. You sit
-across from the **ghost** of the writer (or of someone they loved) and
-ask them questions. They will not tell you the truth directly. They
-never do. But they will not quite lie, either.
+**An offline-first AI literary mystery game.** Read a piece of fiction — a
+letter, a diary, an interview — notice what the writer is hiding, interrogate
+the ghost who wrote it, and submit your accusation.
 
-When you are ready, you submit your **accusation** — your explanation of
-what really happened beneath the surface text. The Keeper of the Case
-will judge whether you found it.
+[![License: MIT](https://img.shields.io/badge/license-MIT-3c3c66.svg)](./LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A520-35415f.svg)](./package.json)
+[![Tests](https://img.shields.io/badge/tests-81%20passing-2f6f4f.svg)](#development)
+[![LLM](https://img.shields.io/badge/LLM-optional-8a6a3a.svg)](#optional-a-live-ghost-with-a-local-llm)
+
+---
+
+<img src="docs/images/interrogation-pixel.png" alt="The interrogation — the ghost's pixel portrait breathes while its answers type into an RPG dialog box" width="820" />
+
+**The interrogation.** The ghost's portrait breathes and blinks; the answers
+type themselves out; the trust percentage is the disclosure threshold, rising
+as you cite evidence from the text.
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/images/lobby-pixel.png" alt="PIXEL theme — the case-files title screen" /><br /><sub><b>PIXEL</b> — a cold, patient case-files terminal</sub></td>
+    <td width="50%" align="center"><img src="docs/images/lobby-paper.png" alt="PAPER theme — the literary manuscript lobby" /><br /><sub><b>PAPER</b> — parchment, ink, and the lyrical voice</sub></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><img src="docs/images/reading-pixel.png" alt="Reading a case file in the pixel theme" /><br /><sub><b>READ</b> — every case ships as a full literary text</sub></td>
+    <td width="50%" align="center"><img src="docs/images/reveal-pixel.png" alt="Case closed — the truth and the afterword" /><br /><sub><b>REVEAL</b> — the truth, then an afterword on what it meant</sub></td>
+  </tr>
+</table>
+
+</div>
+
+---
 
 Three cases ship with the game, hand-authored and tested through the
 validator. If you have a local LLM (Ollama, llama.cpp, LM Studio) or an

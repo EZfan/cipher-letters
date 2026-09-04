@@ -7,8 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Pixel-art game theme (PIXEL/PAPER toggle): title screen with candles
+  and stars, 16×16 evidence sprites, breathing/blinking ghost portraits,
+  typewriter RPG dialog, CRT scanlines, and an optional pure-WebAudio
+  8-bit sound engine. All art and sound are generated in code; 41 new
+  sprite-integrity tests (81 total).
+- `scripts/screenshot.mjs` — captures the README screenshots by walking
+  the real UI against a mocked API (`pnpm shots`).
+
 ### Fixed
 
+- **Accusation verdicts never registered as SOLVED in the UI**: the
+  server returned the verdict nested inside a `verdict` field while the
+  client read a flat shape, so every solved case rendered as
+  "UNSUPPORTED". The server now returns the flat shape the client
+  expects (this bug was caught by the screenshot walk-through).
+- The conversation log's bottom fade masked the newest message's last
+  line; the fade now stays shallow and the log gained bottom padding.
 - The server now resolves the web bundle and the shipped case texts
   relative to its own module location, so `pnpm start` serves the full
   game and complete surface narratives regardless of the working

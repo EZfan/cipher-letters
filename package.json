@@ -28,6 +28,7 @@
     "test": "pnpm -r run test",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "shots": "node scripts/screenshot.mjs",
     "prepare": "husky || true",
     "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
   },
@@ -36,6 +37,7 @@
     "eslint": "^9.39.5",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
+    "playwright": "^1.62.1",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.69.0"

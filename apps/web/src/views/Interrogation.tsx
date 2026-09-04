@@ -149,7 +149,7 @@ export function Interrogation() {
 
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scroll-fade-mask"
+            className="flex-1 overflow-y-auto px-6 pt-4 pb-8 space-y-4 scroll-fade-mask"
           >
             {turns.length === 0 && (
               <p className="font-serif italic text-ink-900/40 text-center py-12">

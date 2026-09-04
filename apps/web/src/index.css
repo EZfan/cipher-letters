@@ -108,7 +108,9 @@
 
 @layer utilities {
   .scroll-fade-mask {
-    mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+    /* Only the very top fades in; the bottom fade must stay shallow so
+       the newest message is never half-hidden. */
+    mask-image: linear-gradient(to bottom, transparent, black 8%, black 97%);
   }
 }
 

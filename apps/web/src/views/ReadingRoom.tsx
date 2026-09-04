@@ -24,19 +24,12 @@ export function ReadingRoom() {
         <p className="font-sans text-xs uppercase tracking-[0.3em] text-parchment-200/50 mb-2">
           {pixel ? 'CASE FILE — REMOVE FROM THIS ROOM' : 'The file'}
         </p>
-        <h1 className="font-display text-3xl italic text-parchment-50 pixel-shadow-text">
-          {c.title}
-        </h1>
-        <p className="font-serif text-parchment-200/70 mt-2 italic">{c.setting}</p>
-      </motion.div>
-
-      {pixel && (
-        <div className="flex justify-center mb-2">
-          {CASE_SPRITES[session.caseId] && (
+        {pixel && CASE_SPRITES[session.caseId] && (
+          <div className="flex justify-center mt-4">
             <PixelArt sprite={CASE_SPRITES[session.caseId]} scale={4} label="Case evidence" />
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </motion.div>
 
       <SurfaceReader
         text={session.surfaceText}
