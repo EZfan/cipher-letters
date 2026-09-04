@@ -25,6 +25,8 @@ interface GameState {
   verdict: AccusationVerdict | null;
   hint: HintResponse | null;
   error: string | null;
+  theme: 'pixel' | 'manuscript';
+  audioEnabled: boolean;
 
   loadCases: () => Promise<void>;
   checkLlm: () => Promise<void>;
@@ -35,6 +37,29 @@ interface GameState {
   returnToLobby: () => void;
   setError: (message: string | null) => void;
   setPhase: (phase: GameState['phase']) => void;
+  toggleTheme: () => void;
+  toggleAudio: () => void;
+}
+
+const THEME_KEY = 'cipher.theme';
+const AUDIO_KEY = 'cipher.audio';
+
+function initialTheme(): 'pixel' | 'manuscript' {
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === 'pixel' || saved === 'manuscript') return saved;
+  } catch {
+    // private mode etc. — fall through to the default
+  }
+  return 'pixel';
+}
+
+function initialAudio(): boolean {
+  try {
+    return localStorage.getItem(AUDIO_KEY) === 'on';
+  } catch {
+    return false;
+  }
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -46,6 +71,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   verdict: null,
   hint: null,
   error: null,
+  theme: initialTheme(),
+  audioEnabled: initialAudio(),
 
   async loadCases() {
     try {
@@ -132,5 +159,25 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   setPhase(phase) {
     set({ phase });
+  },
+
+  toggleTheme() {
+    const theme = get().theme === 'pixel' ? 'manuscript' : 'pixel';
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch {
+      // non-fatal
+    }
+    set({ theme });
+  },
+
+  toggleAudio() {
+    const audioEnabled = !get().audioEnabled;
+    try {
+      localStorage.setItem(AUDIO_KEY, audioEnabled ? 'on' : 'off');
+    } catch {
+      // non-fatal
+    }
+    set({ audioEnabled });
   },
 }));

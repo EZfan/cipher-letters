@@ -11,6 +11,7 @@ import { ErrorBanner } from './components/ErrorBanner';
 
 export function App() {
   const phase = useGameStore((s) => s.phase);
+  const theme = useGameStore((s) => s.theme);
   const loadCases = useGameStore((s) => s.loadCases);
   const checkLlm = useGameStore((s) => s.checkLlm);
 
@@ -18,6 +19,10 @@ export function App() {
     loadCases();
     checkLlm();
   }, [loadCases, checkLlm]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   return (
     <div className="relative min-h-screen flex flex-col">

@@ -1,9 +1,14 @@
 import { motion } from 'motion/react';
 import { useGameStore } from '../store';
 import { SurfaceReader } from '../components/SurfaceReader';
+import { PixelArt } from '../pixel/PixelArt';
+import { CASE_SPRITES } from '../pixel/sprites';
 
 export function ReadingRoom() {
   const session = useGameStore((s) => s.session);
+  const theme = useGameStore((s) => s.theme);
+  const setPhase = useGameStore((s) => s.setPhase);
+  const pixel = theme === 'pixel';
 
   if (!session || !session.case) return null;
   const c = session.case;
@@ -17,11 +22,21 @@ export function ReadingRoom() {
         className="text-center mb-8"
       >
         <p className="font-sans text-xs uppercase tracking-[0.3em] text-parchment-200/50 mb-2">
-          The file
+          {pixel ? 'CASE FILE — REMOVE FROM THIS ROOM' : 'The file'}
         </p>
-        <h1 className="font-display text-3xl italic text-parchment-50">{c.title}</h1>
+        <h1 className="font-display text-3xl italic text-parchment-50 pixel-shadow-text">
+          {c.title}
+        </h1>
         <p className="font-serif text-parchment-200/70 mt-2 italic">{c.setting}</p>
       </motion.div>
+
+      {pixel && (
+        <div className="flex justify-center mb-2">
+          {CASE_SPRITES[session.caseId] && (
+            <PixelArt sprite={CASE_SPRITES[session.caseId]} scale={4} label="Case evidence" />
+          )}
+        </div>
+      )}
 
       <SurfaceReader
         text={session.surfaceText}
@@ -36,17 +51,27 @@ export function ReadingRoom() {
         transition={{ delay: 0.6, duration: 0.8 }}
         className="text-center mt-12 mb-16"
       >
-        <p className="font-serif text-parchment-200/60 italic mb-8 max-w-xl mx-auto">
-          Read once with the surface. Read again with the silence.
-          <br />
-          When you are ready, sit across from the ghost.
+        <p className="font-serif text-parchment-200/60 italic mb-8 max-w-xl mx-auto leading-relaxed">
+          {pixel ? (
+            <>
+              READ IT ONCE FOR THE STORY. READ IT AGAIN FOR WHAT IT AVOIDS.
+              <br />
+              THEN TAKE THE SEAT ACROSS FROM THE GHOST.
+            </>
+          ) : (
+            <>
+              Read once with the surface. Read again with the silence.
+              <br />
+              When you are ready, sit across from the ghost.
+            </>
+          )}
         </p>
         <button
-          onClick={() => useGameStore.getState().setPhase('conversation')}
+          onClick={() => setPhase('conversation')}
           className="group relative px-8 py-4 bg-ember-600/20 hover:bg-ember-600/30 border border-ember-600/40 hover:border-ember-400 rounded-sm transition-all"
         >
           <span className="font-display italic text-xl text-parchment-50 group-hover:text-parchment-50 transition-colors">
-            sit across from the ghost
+            {pixel ? '▸ BEGIN INTERVIEW' : 'sit across from the ghost'}
           </span>
         </button>
       </motion.div>

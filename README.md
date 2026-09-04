@@ -87,6 +87,28 @@ and the look bespoke.
 
 ---
 
+## Two ways to look at it
+
+The game ships with **two visual themes**, switchable any time from the
+top bar (▤ PIXEL / ▤ PAPER) and remembered in `localStorage`:
+
+- **PIXEL** (default) — a title screen with flickering candles and
+  twinkling stars, three evidence files drawn as 16×16 pixel sprites
+  (a sealed letter, a lighthouse, a microphone), and an interrogation
+  scene where the ghost's portrait **breathes and blinks** while its
+  answers type themselves into a classic RPG dialog box. CRT scanlines,
+  Press Start 2P for titles, VT323 for prose, and an optional 8-bit
+  sound engine (pure WebAudio — typing blips, a selection chime, a
+  small arpeggio when a case closes). The terminal has its own voice:
+  cold, uppercase, patient.
+- **PAPER** — the original literary presentation: parchment and ink,
+  Fraunces and Source Serif 4, drop caps, the lyrical voice.
+
+Every sprite is **generated in code** (character grids drawn with small
+geometry helpers, rendered to SVG) — the repo carries no binary art
+assets, and `sprites.test.ts` guards every row length and palette
+character in CI.
+
 ## The Design Philosophy
 
 Three principles, borrowed from the literary traditions this game

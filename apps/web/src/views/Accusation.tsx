@@ -5,7 +5,9 @@ import { useGameStore } from '../store';
 export function Accusation() {
   const submitAccusation = useGameStore((s) => s.submitAccusation);
   const ghostBusy = useGameStore((s) => s.ghostBusy);
+  const theme = useGameStore((s) => s.theme);
   const [text, setText] = useState('');
+  const pixel = theme === 'pixel';
 
   const submit = () => {
     if (!text.trim() || text.length < 10) return;
@@ -21,14 +23,24 @@ export function Accusation() {
     >
       <header className="text-center mb-12">
         <p className="font-sans text-xs uppercase tracking-[0.4em] text-parchment-200/50 mb-4">
-          The accusation
+          {pixel ? 'FINAL ENTRY · IRREVERSIBLE INTENT' : 'The accusation'}
         </p>
-        <h2 className="font-display text-4xl italic text-parchment-50 mb-6">
-          What really happened.
+        <h2 className="font-display text-4xl italic text-parchment-50 mb-6 pixel-shadow-text">
+          {pixel ? 'WRITTEN TESTIMONY' : 'What really happened.'}
         </h2>
         <p className="font-serif text-parchment-200/70 max-w-xl mx-auto leading-relaxed">
-          Speak it plainly. No poetry. No metaphor. The ghost will not be persuaded by grace; only
-          by truth. Cite what you found in the text.
+          {pixel ? (
+            <>
+              STATE IT PLAINLY. CITE WHAT THE FILE ACTUALLY SAYS.
+              <br />
+              THE KEEPER DOES NOT REWARD POETRY — ONLY PROOF.
+            </>
+          ) : (
+            <>
+              Speak it plainly. No poetry. No metaphor. The ghost will not be persuaded by grace;
+              only by truth. Cite what you found in the text.
+            </>
+          )}
         </p>
       </header>
 
@@ -37,7 +49,7 @@ export function Accusation() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           disabled={ghostBusy}
-          placeholder="I accuse…"
+          placeholder={pixel ? 'I ACCUSE…' : 'I accuse…'}
           rows={10}
           maxLength={2000}
           className="w-full bg-transparent outline-none font-serif text-ink-900 placeholder:text-ink-900/30 resize-none leading-relaxed text-lg"
@@ -49,7 +61,13 @@ export function Accusation() {
             disabled={ghostBusy || text.length < 10}
             className="px-6 py-3 bg-ember-600/20 hover:bg-ember-600/30 border border-ember-600/40 hover:border-ember-600/60 disabled:opacity-30 disabled:cursor-not-allowed rounded-sm font-display italic text-ink-900 text-lg transition-all"
           >
-            {ghostBusy ? 'the keeper is reading…' : 'submit the accusation'}
+            {ghostBusy
+              ? pixel
+                ? 'THE KEEPER READS…'
+                : 'the keeper is reading…'
+              : pixel
+                ? '▸ SUBMIT FOR JUDGEMENT'
+                : 'submit the accusation'}
           </button>
         </div>
       </div>
