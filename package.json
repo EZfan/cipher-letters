@@ -33,14 +33,14 @@
     "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
   },
   "devDependencies": {
-    "@types/node": "^22.10.0",
+    "@types/node": "^26.5.0",
     "eslint": "^9.39.5",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.10",
-    "playwright": "^1.62.1",
+    "lint-staged": "^17.5.0",
+    "playwright": "^1.63.0",
     "prettier": "^3.4.2",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.69.0"
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.70.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
